@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
+<title>Will You Go On A Date With Me?</title>
+<meta name="description" content="Will you go on a date with me?" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💌</text></svg>" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="hearts-bg" id="heartsBg" aria-hidden="true"></div>
+
+  <main class="stage">
+    <section id="askScreen" class="card" role="region" aria-label="Frage">
+      <div class="emoji-row">💌 💐 💖</div>
+      <h1>Will You Go On A Date With Me?</h1>
+      <p id="subtext" class="subtext">Ich hab mir überlegt, dass wir beide mal richtig schön Zeit verbringen sollten.</p>
+
+      <div class="button-row">
+        <button id="yesBtn" class="btn btn-yes" type="button">Yes 💕</button>
+        <button id="noBtn" class="btn btn-no" type="button">No</button>
+      </div>
+
+      <p id="counter" class="counter"></p>
+    </section>
+
+    <section id="yesScreen" class="card celebration hidden" role="region" aria-label="Antwort">
+      <div class="emoji-row big">🎉 😍 🎉</div>
+      <h1>Yesss! 💖</h1>
+      <p class="subtext">Ich freu mich schon riesig auf unser Date! Ich melde mich mit den Details.</p>
+      <div class="emoji-row">🥂 🌹 🍿 🎬 🍫</div>
+    </section>
+  </main>
+
+  <canvas id="confetti" aria-hidden="true"></canvas>
+
+  <script src="script.js"></script>
+</body>
+</html>
