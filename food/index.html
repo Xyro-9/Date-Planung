@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Will You Go On A Date With Me?</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌸</text></svg>" />
+<link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="particles" id="particles" aria-hidden="true"></div>
+
+  <main class="card">
+    <h1>What are we feeling? 🍽️✨</h1>
+    <p class="subtitle">pick your vibe</p>
+
+    <div class="food-grid" id="foodGrid">
+      <button class="food-option" data-food="Pizza" type="button"><span class="food-emoji">🍕</span><span class="food-label">Pizza</span></button>
+      <button class="food-option" data-food="Sushi" type="button"><span class="food-emoji">🍣</span><span class="food-label">Sushi</span></button>
+      <button class="food-option" data-food="Burgers" type="button"><span class="food-emoji">🍔</span><span class="food-label">Burgers</span></button>
+      <button class="food-option" data-food="Pasta" type="button"><span class="food-emoji">🍝</span><span class="food-label">Pasta</span></button>
+      <button class="food-option" data-food="Tacos" type="button"><span class="food-emoji">🌮</span><span class="food-label">Tacos</span></button>
+      <button class="food-option" data-food="Ramen" type="button"><span class="food-emoji">🍜</span><span class="food-label">Ramen</span></button>
+    </div>
+
+    <a href="/date" id="nextBtn" class="btn btn-yes btn-block" style="pointer-events:none; opacity:0.45;">Next →</a>
+  </main>
+
+  <script src="/script.js"></script>
+  <script>
+    spawnParticles("particles", "♥", { interval: 700, minSize: 12, maxSize: 18, opacity: 0.3 });
+
+    const grid = document.getElementById("foodGrid");
+    const nextBtn = document.getElementById("nextBtn");
+    const saved = loadDateChoice("food");
+
+    grid.querySelectorAll(".food-option").forEach((btn) => {
+      if (btn.dataset.food === saved) btn.classList.add("selected");
+      btn.addEventListener("click", () => {
+        grid.querySelectorAll(".food-option").forEach((b) => b.classList.remove("selected"));
+        btn.classList.add("selected");
+        saveDateChoice("food", btn.dataset.food);
+        nextBtn.style.pointerEvents = "auto";
+        nextBtn.style.opacity = "1";
+      });
+    });
+
+    if (saved) {
+      nextBtn.style.pointerEvents = "auto";
+      nextBtn.style.opacity = "1";
+    }
+  </script>
+</body>
+</html>

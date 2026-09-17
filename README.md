@@ -4,13 +4,29 @@ Eine kleine "Will You Go On A Date With Me?"-Seite für **date.eneselena.de**.
 
 ## Was die Seite macht
 
-- Frage mit "Yes" / "No" Button
-- Der "No" Button weicht bei Hover/Tap aus und springt an eine zufällige Stelle,
-  dabei wird der "Yes" Button mit jedem Versuch etwas größer
-- Nach "Yes" gibt es eine Konfetti-Animation und eine kleine Bestätigungsseite
-- Schwebende Herz-Animation im Hintergrund
+Mehrseitiger Flow, genau wie im Original-Beispiel:
+
+1. **`/`** – "Will you go on a date with me?" mit YES/no-Button. Der "no"-Button
+   weicht bei Hover/Tap aus und springt an eine zufällige Stelle.
+2. **`/letter`** – "glad you didn't say no. be ready by 6, I'm coming to get
+   you 🚗" + "ok I accept"-Button
+3. **`/food`** – Auswahl-Grid für die Verabredung ("What are we feeling?")
+4. **`/date`** – Tag/Uhrzeit auswählen ("So... when are you free?")
+5. **`/yay`** – Bestätigungsseite mit Konfetti und Zusammenfassung
+   (Essen/Tag/Uhrzeit aus den vorherigen Schritten)
+
+Die Auswahl aus `/food` und `/date` wird per `localStorage` zwischengespeichert
+und auf `/yay` als Zusammenfassung angezeigt.
 
 Reine statische Seite (HTML/CSS/JS), keine Abhängigkeiten, kein Backend.
+Jede Route ist ein eigener Ordner mit `index.html` (z. B. `/food/index.html`),
+damit sie als saubere URL ohne `.html`-Endung funktioniert.
+
+### Eigenes Foto einfügen
+
+Auf der Startseite (`/`) wird `/photo.jpg` als Avatar angezeigt. Lege dafür
+eine Datei `photo.jpg` im Projekt-Hauptordner ab. Ist keine Datei vorhanden,
+wird automatisch ein 🐾-Platzhalter angezeigt.
 
 ## Lokal ansehen
 
