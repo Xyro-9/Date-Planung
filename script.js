@@ -38,3 +38,32 @@ function loadDateChoice(key) {
     return "";
   }
 }
+
+const WEB3FORMS_ACCESS_KEY = "b437899e-3b65-49d1-b705-c351b046dfcf";
+
+function notifyDateConfirmed(food, day, time) {
+  const prettyDay = day
+    ? new Date(`${day}T00:00:00`).toLocaleDateString("de-DE", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      })
+    : "";
+
+  fetch("https://api.web3forms.com/submit", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    keepalive: true,
+    body: JSON.stringify({
+      access_key: WEB3FORMS_ACCESS_KEY,
+      subject: "💌 Das Date steht!",
+      from_name: "date.eneselena.de",
+      Essen: food || "-",
+      Tag: prettyDay || "-",
+      Uhrzeit: time || "-",
+    }),
+  }).catch(() => {
+    /* Benachrichtigung ist nice-to-have, Flow soll dadurch nie blockiert werden */
+  });
+}
