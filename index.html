@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Will You Go On A Date With Me?</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌸</text></svg>" />
+<link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="particles" id="particles" aria-hidden="true"></div>
+
+  <main class="card">
+    <div class="avatar" id="avatar">
+      <img src="/photo.jpg" alt="" onerror="this.style.display='none'; this.parentElement.classList.add('no-photo')" />
+      <span>🐾</span>
+    </div>
+
+    <h1>🌸 Will you go on a date with me? 🌸</h1>
+
+    <div class="button-row">
+      <a href="/letter" class="btn btn-yes">YES ♥</a>
+      <button id="noBtn" class="btn btn-no" type="button">no 🐾</button>
+    </div>
+  </main>
+
+  <script src="/script.js"></script>
+  <script>
+    spawnParticles("particles", "🌸", { interval: 900, minSize: 16, maxSize: 26, opacity: 0.55 });
+
+    const noBtn = document.getElementById("noBtn");
+    let dodges = 0;
+    function dodge() {
+      dodges += 1;
+      const rect = noBtn.getBoundingClientRect();
+      const margin = 16;
+      const maxX = window.innerWidth - rect.width - margin;
+      const maxY = window.innerHeight - rect.height - margin;
+      noBtn.style.position = "fixed";
+      noBtn.style.left = `${Math.max(margin, Math.random() * maxX)}px`;
+      noBtn.style.top = `${Math.max(margin, Math.random() * maxY)}px`;
+    }
+    noBtn.addEventListener("mouseenter", dodge);
+    noBtn.addEventListener("touchstart", (e) => { e.preventDefault(); dodge(); }, { passive: false });
+    noBtn.addEventListener("click", (e) => { e.preventDefault(); dodge(); });
+  </script>
+</body>
+</html>

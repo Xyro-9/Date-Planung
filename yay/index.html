@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Will You Go On A Date With Me?</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌸</text></svg>" />
+<link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <canvas id="confetti" aria-hidden="true" style="position:fixed;inset:0;z-index:2;pointer-events:none;"></canvas>
+
+  <main class="card">
+    <div class="avatar" style="background:#e8546f; font-size:40px;">😱</div>
+
+    <h1>WAIT YOU ACTUALLY SAID YES?? 😭</h1>
+    <p class="subtitle">I was so ready for you to say no 😅</p>
+
+    <div class="summary" id="summary" style="display:none;"></div>
+
+    <a href="/" id="okBtn" class="btn btn-yes">okay okay! →</a>
+  </main>
+
+  <script src="/script.js"></script>
+  <script>
+    const food = loadDateChoice("food");
+    const day = loadDateChoice("day");
+    const time = loadDateChoice("time");
+
+    if (food || day || time) {
+      const summary = document.getElementById("summary");
+      const parts = [];
+      if (food) parts.push(`<strong>Food:</strong> ${food}`);
+      if (day) parts.push(`<strong>Day:</strong> ${new Date(day + "T00:00:00").toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" })}`);
+      if (time) parts.push(`<strong>Time:</strong> ${time}`);
+      summary.innerHTML = parts.join("<br />");
+      summary.style.display = "block";
+    }
+
+    const canvas = document.getElementById("confetti");
+    const ctx = canvas.getContext("2d");
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener("resize", resize);
+
+    const colors = ["#ff7fa6", "#ee5586", "#b7a3e0", "#fdeaf0", "#ffffff"];
+    const pieces = Array.from({ length: 140 }, () => ({
+      x: Math.random() * canvas.width,
+      y: -20 - Math.random() * canvas.height * 0.5,
+      size: 6 + Math.random() * 6,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      speedY: 2 + Math.random() * 3,
+      speedX: -2 + Math.random() * 4,
+      rotation: Math.random() * 360,
+      rotationSpeed: -6 + Math.random() * 12,
+    }));
+
+    const start = performance.now();
+    const duration = 3500;
+
+    function frame(now) {
+      const elapsed = now - start;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      pieces.forEach((p) => {
+        p.x += p.speedX;
+        p.y += p.speedY;
+        p.rotation += p.rotationSpeed;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate((p.rotation * Math.PI) / 180);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
+        ctx.restore();
+      });
+      if (elapsed < duration) {
+        requestAnimationFrame(frame);
+      } else {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+    requestAnimationFrame(frame);
+  </script>
+</body>
+</html>

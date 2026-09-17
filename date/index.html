@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Will You Go On A Date With Me?</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌸</text></svg>" />
+<link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="particles" id="particles" aria-hidden="true"></div>
+
+  <main class="card">
+    <div class="icon-row">📅🐾</div>
+    <h1>So... when are you free?</h1>
+
+    <div class="field">
+      <label for="dayInput">Pick a Day 📅</label>
+      <input type="date" id="dayInput" />
+    </div>
+
+    <div class="field">
+      <label for="timeInput">What Time? 🕐</label>
+      <select id="timeInput">
+        <option value="">Select a time...</option>
+        <option value="12:00 PM">12:00 PM</option>
+        <option value="1:00 PM">1:00 PM</option>
+        <option value="2:00 PM">2:00 PM</option>
+        <option value="4:00 PM">4:00 PM</option>
+        <option value="6:00 PM">6:00 PM</option>
+        <option value="7:00 PM">7:00 PM</option>
+        <option value="8:00 PM">8:00 PM</option>
+      </select>
+    </div>
+
+    <button id="setDateBtn" class="btn btn-yes btn-block" type="button" disabled>set the date! ♥</button>
+  </main>
+
+  <script src="/script.js"></script>
+  <script>
+    spawnParticles("particles", "♥", { interval: 700, minSize: 12, maxSize: 18, opacity: 0.3 });
+
+    const dayInput = document.getElementById("dayInput");
+    const timeInput = document.getElementById("timeInput");
+    const setDateBtn = document.getElementById("setDateBtn");
+
+    dayInput.value = loadDateChoice("day");
+    timeInput.value = loadDateChoice("time");
+
+    function checkReady() {
+      setDateBtn.disabled = !(dayInput.value && timeInput.value);
+    }
+    checkReady();
+
+    dayInput.addEventListener("input", checkReady);
+    timeInput.addEventListener("change", checkReady);
+
+    setDateBtn.addEventListener("click", () => {
+      if (setDateBtn.disabled) return;
+      saveDateChoice("day", dayInput.value);
+      saveDateChoice("time", timeInput.value);
+      window.location.href = "/yay";
+    });
+  </script>
+</body>
+</html>
