@@ -59,6 +59,7 @@
       if (setDateBtn.disabled) return;
       saveDateChoice("day", dayInput.value);
       saveDateChoice("time", timeInput.value);
+      notifyDateConfirmed(loadDateChoice("food"), dayInput.value, timeInput.value);
       window.location.href = "/yay";
     });
   </script>
