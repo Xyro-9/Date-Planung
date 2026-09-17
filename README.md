@@ -1,6 +1,6 @@
 # Date-Planung
 
-Eine kleine "Will You Go On A Date With Me?"-Seite für **eneselena.de**.
+Eine kleine "Will You Go On A Date With Me?"-Seite für **date.eneselena.de**.
 
 ## Was die Seite macht
 
@@ -22,17 +22,18 @@ python3 -m http.server 8000
 
 und dann `http://localhost:8000` aufrufen.
 
-## Deployment auf eneselena.de
+## Deployment auf date.eneselena.de
 
-Die Datei `CNAME` ist für **GitHub Pages** mit eigener Domain vorbereitet:
+Die Datei `CNAME` ist für **GitHub Pages** mit eigener Subdomain vorbereitet:
 
 1. Repository-Settings → Pages → Branch für Pages auswählen (z. B. `main`, Ordner `/`)
-2. Bei deinem Domain-Registrar einen `CNAME`-Eintrag von `eneselena.de` auf
-   `<username>.github.io` setzen (bzw. laut GitHub-Pages-Doku für Apex-Domains
-   die passenden `A`-Records eintragen)
-3. In den Pages-Settings die Custom Domain `eneselena.de` eintragen und
+2. Bei deinem Domain-Registrar (dort wo `eneselena.de` verwaltet wird) einen
+   `CNAME`-Eintrag für die Subdomain `date` anlegen, der auf
+   `<username>.github.io` zeigt (Subdomains brauchen keine `A`-Records, nur
+   Apex-Domains)
+3. In den Pages-Settings die Custom Domain `date.eneselena.de` eintragen und
    "Enforce HTTPS" aktivieren
 
 Alternativ kann die Seite genauso einfach über Netlify oder Vercel deployt und
-dort die Domain `eneselena.de` verbunden werden — es sind nur die drei
+dort die Subdomain `date.eneselena.de` verbunden werden — es sind nur die drei
 statischen Dateien (`index.html`, `style.css`, `script.js`) nötig.
