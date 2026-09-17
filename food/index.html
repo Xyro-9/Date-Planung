@@ -23,7 +23,7 @@
       <button class="food-option" data-food="Ramen" type="button"><span class="food-emoji">🍜</span><span class="food-label">Ramen</span></button>
     </div>
 
-    <a href="/date" id="nextBtn" class="btn btn-yes btn-block" style="pointer-events:none; opacity:0.45;">Next →</a>
+    <a href="/date" id="nextBtn" class="btn btn-yes btn-block btn-disabled">Next →</a>
   </main>
 
   <script src="/script.js"></script>
@@ -40,14 +40,12 @@
         grid.querySelectorAll(".food-option").forEach((b) => b.classList.remove("selected"));
         btn.classList.add("selected");
         saveDateChoice("food", btn.dataset.food);
-        nextBtn.style.pointerEvents = "auto";
-        nextBtn.style.opacity = "1";
+        nextBtn.classList.remove("btn-disabled");
       });
     });
 
     if (saved) {
-      nextBtn.style.pointerEvents = "auto";
-      nextBtn.style.opacity = "1";
+      nextBtn.classList.remove("btn-disabled");
     }
   </script>
 </body>
