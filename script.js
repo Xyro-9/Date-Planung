@@ -74,6 +74,30 @@ function buildDateIcs(food, day, time) {
   return new Blob([lines.join("\r\n")], { type: "text/calendar" });
 }
 
+function sendPlainNotification(basePayload) {
+  return fetch("https://api.web3forms.com/submit", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    keepalive: true,
+    body: JSON.stringify(basePayload),
+  });
+}
+
+function sendNotificationWithIcs(basePayload, ics) {
+  const formData = new FormData();
+  Object.entries(basePayload).forEach(([key, value]) => formData.append(key, value));
+  formData.append("attachment", ics, "date.ics");
+
+  return fetch("https://api.web3forms.com/submit", {
+    method: "POST",
+    keepalive: true,
+    body: formData,
+  });
+}
+
+// Returns a promise that always resolves (never rejects) once the
+// notification has gone out, or after a short timeout — whichever is
+// first, so the date flow never hangs waiting on the network.
 function notifyDateConfirmed(food, day, time) {
   const prettyDay = day
     ? new Date(`${day}T00:00:00`).toLocaleDateString("de-DE", {
@@ -84,26 +108,31 @@ function notifyDateConfirmed(food, day, time) {
       })
     : "";
 
-  const formData = new FormData();
-  formData.append("access_key", WEB3FORMS_ACCESS_KEY);
-  formData.append("subject", "💌 Das Date steht!");
-  formData.append("from_name", "date.eneselena.de");
-  formData.append("Essen", food || "-");
-  formData.append("Tag", prettyDay || "-");
-  formData.append("Uhrzeit", time || "-");
+  const basePayload = {
+    access_key: WEB3FORMS_ACCESS_KEY,
+    subject: "💌 Das Date steht!",
+    from_name: "date.eneselena.de",
+    Essen: food || "-",
+    Tag: prettyDay || "-",
+    Uhrzeit: time || "-",
+  };
 
   const ics = buildDateIcs(food, day, time);
-  if (ics) {
-    formData.append("attachment", ics, "date.ics");
-  }
 
-  fetch("https://api.web3forms.com/submit", {
-    method: "POST",
-    keepalive: true,
-    body: formData,
-  }).catch(() => {
-    /* Benachrichtigung ist nice-to-have, Flow soll dadurch nie blockiert werden */
-  });
+  // Try the version with the calendar attachment first. If that request
+  // errors out or comes back non-ok (e.g. attachments unsupported on the
+  // current plan), fall back to the plain notification so the email
+  // itself never silently stops going out because of the attachment.
+  const attempt = ics
+    ? sendNotificationWithIcs(basePayload, ics)
+        .then((res) => (res.ok ? res : sendPlainNotification(basePayload)))
+        .catch(() => sendPlainNotification(basePayload).catch(() => {}))
+    : sendPlainNotification(basePayload).catch(() => {});
+
+  return Promise.race([
+    attempt.catch(() => {}),
+    new Promise((resolve) => setTimeout(resolve, 3500)),
+  ]);
 }
 
 function burstAt(x, y, emojiList) {

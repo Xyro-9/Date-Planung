@@ -71,11 +71,13 @@
     dayInput.addEventListener("input", checkReady);
     timeInput.addEventListener("change", checkReady);
 
-    setDateBtn.addEventListener("click", () => {
+    setDateBtn.addEventListener("click", async () => {
       if (setDateBtn.disabled) return;
       saveDateChoice("day", dayInput.value);
       saveDateChoice("time", timeInput.value);
-      notifyDateConfirmed(loadDateChoice("food"), dayInput.value, timeInput.value);
+      setDateBtn.disabled = true;
+      setDateBtn.textContent = "wird gesendet...";
+      await notifyDateConfirmed(loadDateChoice("food"), dayInput.value, timeInput.value);
       window.location.href = "/yay";
     });
   </script>
